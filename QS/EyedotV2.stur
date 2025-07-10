@@ -1,0 +1,9 @@
+symbols: N
+outputs: Out
+eye(i, j) := 1 * (0 <= i < N) * (i = j)
+eye:D(i, j) := (0 <= i < N) * (0 <= j < N)
+M(i, j) := eye(i, j)
+Out(i) := M(i, j) * V(j)
+M:D(i, j) := (0 <= i < N) * (0 <= j < N)
+V:D(j) := (0 <= j < N)
+Out:D(i) := (0 <= i < N)

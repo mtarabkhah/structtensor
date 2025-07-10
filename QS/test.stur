@@ -1,0 +1,6 @@
+symbols: N
+Out(i) := M(i, j) * V(j)
+M:D(i, j) := (0 <= i < N) * (0 <= j < N)
+V:D(j) := (0 <= j < N)
+M:U(i, j) := (i =j)
+Out:D(i) := (0 <= i < N)

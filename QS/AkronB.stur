@@ -1,0 +1,5 @@
+symbols: N, M
+Out(i, j) := A(r, c) * B(v, w) * (0 <= r < N) * (0 <= c < N) * (0 <= v < M) * (0 <= w < M) * (i = r*M+v) * (j=c*M+w)
+A:D(i, j) := (0 <= i < N) * (0 <= j < N)
+B:D(i, j) := (0 <= i < M) * (0 <= j < M)
+Out:D(i, j) := (0 <= i < N*M) * (0 <= j < N*M)

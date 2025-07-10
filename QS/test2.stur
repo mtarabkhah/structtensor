@@ -1,0 +1,12 @@
+symbols: N
+@preprocess_start
+I(i, j) := 1 * (i = j) * (0 <= i < N) * (0 <= j < N)
+I:D(i, j) := (0 <= i < N) * (0 <= j < N)
+@preprocess_end
+X(i, j) := 1 * (i = 0) * (j = 1) + 1 * (i = 1) * (j = 0)
+B(i, j) := I(i, j) * 2
+C(i, j) := I(r, c) * X(v, w) * (0 <= r < N) * (0 <= c < N) * (0 <= v < 2) * (0 <= w < 2) * (i = 2*r+v) * (j= 2*c+W)
+I:D(i, j) := (0 <= i < N) * (0 <= j < N)
+B:D(i, j) := (0 <= i < N) * (0 <= j < N)
+X:D(i, j) := (0 <= i < 2) * (0 <= j < 2)
+C:D(i, j) := (0 <= i < 2*N) * (0 <= j < 2*N)

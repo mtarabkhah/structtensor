@@ -1,0 +1,14 @@
+symbols: N
+outputs: Out
+M(i, j) := A(r, c) * B(v, w) * (0 <= r < N) * (0 <= c < N) * (0 <= v < 2) * (0 <= w < 2) * (i = r*2+v) * (j=c*2+w)
+A:U(i,j)  := (0 <= i < N) * (i = j)
+B:U(i,j) := (i = 0) * (j = 1) + (i = 1) * (j = 0)
+A:D(i, j) := (0 <= i < N) * (0 <= j < N)
+B:D(i, j) := (0 <= i < 2) * (0 <= j < 2)
+M:D(i, j) := (0 <= i < N*2) * (0 <= j < N*2)
+
+
+Out(i) := M(i, j) * V(j)
+
+V:D(j) := (0 <= j < N*2)
+Out:D(i) := (0 <= i < N*2)
