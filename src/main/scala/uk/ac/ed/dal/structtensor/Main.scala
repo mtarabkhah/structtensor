@@ -253,6 +253,8 @@ object Main {
         val preprocessComputation = ccRuleSeq_preprocess
           .map(r => Codegen(r, symbols, config.codeLang, Tensor, iters_map))
           .mkString("\n")
+
+        println(ccRuleSeq)
         val ccComputation = outputs_names.isEmpty match {
           case true =>
             ccRuleSeq

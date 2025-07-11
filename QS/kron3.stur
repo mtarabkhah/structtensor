@@ -1,0 +1,12 @@
+# Kronecker (A,B,C)
+symbols: Nr, Nc, Mr, Mc, Pr, Pc
+#outputs: Out
+AB(i, j) := A(r, c) * B(v, w) * (0 <= r < Nr) * (0 <= c < Nc) * (0 <= v < Mr) * (0 <= w < Mc) * (i = r*Mr+v) * (j=c*Mc+w)
+A:D(i, j) := (0 <= i < Nr) * (0 <= j < Nc)
+B:D(i, j) := (0 <= i < Mr) * (0 <= j < Mc)
+AB:D(i, j) := (0 <= i < Nr*Mr) * (0 <= j < Nc*Mc)
+
+
+Out(i, j) := AB(r, c) * C(v, w) * (0 <= r < Nr*Mr) * (0 <= c < Nc*Mc) * (0 <= v < Pr) * (0 <= w < Pc) * (i = r*Pr+v) * (j=c*Pc+w)
+C:D(i, j) := (0 <= i < Pr) * (0 <= j < Pc)
+Out:D(i, j) := (0 <= i < Nr*Mr*Pr) * (0 <= j < Nc*Mc*Pc)

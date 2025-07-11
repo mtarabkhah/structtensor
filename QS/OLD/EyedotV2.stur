@@ -1,5 +1,5 @@
 symbols: N
-outputs: Out
+#outputs: Out
 eye(i, j) := 1 * (0 <= i < N) * (i = j)
 eye:D(i, j) := (0 <= i < N) * (0 <= j < N)
 M(i, j) := eye(i, j)

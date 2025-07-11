@@ -1,0 +1,7 @@
+# Kronecker (A,B)
+symbols: Nr, Nc, Mr, Mc
+# Kr := Nr() * Mr()  # Tried this but did not work!
+Out(i, j) := A(r, c) * B(v, w) * (0 <= r < Nr) * (0 <= c < Nc) * (0 <= v < Mr) * (0 <= w < Mc) * (i = r*Mr+v) * (j=c*Mc+w)
+A:D(i, j) := (0 <= i < Nr) * (0 <= j < Nc)
+B:D(i, j) := (0 <= i < Mr) * (0 <= j < Mc)
+Out:D(i, j) := (0 <= i < Nr*Mr) * (0 <= j < Nc*Mc)
