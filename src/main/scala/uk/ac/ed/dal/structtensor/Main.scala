@@ -266,7 +266,9 @@ object Main {
           .map(r => Codegen(r, symbols, config.codeLang, Tensor, iters_map))
           .mkString("\n")
 
+        // println("ccRuleSeq : \n" + ccRuleSeq.map(_.prettyFormat()))
         // println("ccRuleSeq : \n" + ccRuleSeq)
+        // println("symbols: \n" + symbols)
         val ccComputation = outputs_names.isEmpty match {
           case true =>
             ccRuleSeq

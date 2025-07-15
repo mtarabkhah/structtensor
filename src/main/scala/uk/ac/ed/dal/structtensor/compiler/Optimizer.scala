@@ -609,6 +609,7 @@ object Optimizer {
         .collect { case a: Access => a.vars }
         .flatten
         .map(_.name)).distinct
+      
       // println("all_variable_names: \n" + all_variable_names)
       // println("all_variable_names.distinct: \n" + all_variable_names.distinct)
       Prod(
@@ -631,9 +632,9 @@ object Optimizer {
       symbols: Seq[Variable],
       iters: Seq[Variable] = Seq()
   ): Rule = {
-    println("iters: \n" + iters)
-    println("symbols: \n" + symbols)
-    println("Rule before replacing equal variables: \n" + rule)
+    // println("iters: \n" + iters)
+    // println("symbols: \n" + symbols)
+    // println("Rule before replacing equal variables: \n" + rule.prettyFormat())
     val equalVariablesSet = getEqualVariables(rule)
     val newBody = SoP(rule.body.prods.zip(equalVariablesSet).map {
       case (p, eSet) => {
@@ -644,19 +645,23 @@ object Optimizer {
     val base_variables =
       (iters ++ symbols ++ rule.head.vars).map(_.name).distinct
 
-    println("base_variables: \n " + base_variables)
-    println("rule.head.vars: \n " + rule.head.vars)
+    // println("base_variables: \n " + base_variables)
+    // println("rule.head.vars: \n " + rule.head.vars)
     val finalBody = SoP(newBody.prods.map(p => {
-      // val all_variable_names = (
-      //     base_variables ++
-      //     p.exps.flatMap(getVariables).map(_.name)
-      //   ).distinct
+      val all_variable_names = (
+          base_variables ++
+          p.exps.flatMap(getVariables).map(_.name)
+        ).distinct
 
-      val all_variable_names = (base_variables ++ p.exps
-        .collect { case a: Access => a.vars }
-        .flatten
-        .map(_.name)).distinct
-      println("all_variable_names: \n" + all_variable_names)
+      // val all_variable_names = (base_variables ++ p.exps
+      //   .collect { case a: Access => a.vars }
+      //   .flatten
+      //   .map(_.name) ++ Seq("r","c")).distinct
+      // val all_variable_names = (base_variables ++ p.exps
+      //   .collect { case a: Access => a.vars }
+      //   .flatten
+      //   .map(_.name)).distinct ++ Seq("r")
+      // println("all_variable_names: \n" + all_variable_names)
       // println("all_variable_names.distinct: \n" + all_variable_names.distinct)
       Prod(
         p.exps.filter(e =>
@@ -664,9 +669,9 @@ object Optimizer {
         )
       )
     }))
-    println("finalBody: \n" + finalBody)
-    println("newBody: \n" + newBody)
-    println()
+    // println("finalBody: \n" + finalBody.prettyFormat())
+    // println("newBody: \n" + newBody.prettyFormat())
+    // println()
     // println("isEmpty: \n" + rule.head.vars.isEmpty)
     if (rule.head.vars.isEmpty) Rule(rule.head, newBody)
     else Rule(rule.head, finalBody)

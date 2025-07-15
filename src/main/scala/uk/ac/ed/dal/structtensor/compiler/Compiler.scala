@@ -1251,7 +1251,10 @@ object Compiler {
       outputs_names: Seq[String] = Seq(),
       iters: Seq[Variable] = Seq()
   ): (Rule, Rule, Rule) = {
+
+    // println("computation: \n" + computation.prettyFormat())
     val norm = normalize(computation)
+    // println("norm: \n" + norm.map(_.prettyFormat()))
     val us_rm_cc_tc_seq = norm.foldLeft(inputs)((ctx, r) => {
       val (us, rm, cc) = infer(r, ctx)
       ctx ++ Seq((us, rm, cc, r))
@@ -1260,16 +1263,19 @@ object Compiler {
     // Optimization
     val (denormUS, denormRM, denormCC, denormTC) =
       denormalize(computation.head, inputs ++ us_rm_cc_tc_seq, outputs_names)
+    // println("denormCC: \n" + denormCC.prettyFormat())
     val (idempotentOptUS, idempotentOptRM, idempotentOptCC) = (
       setIdempotentOpt(denormUS),
       setIdempotentOpt(denormRM),
       setIdempotentOpt(denormCC)
+      // denormCC
     )
-    // println("idempotentOptCC: \n" + idempotentOptCC)
+    // println("idempotentOptCC: \n" + idempotentOptCC.prettyFormat())
     val (removeEmptyProdOptUS, removeEmptyProdOptRM, removeEmptyProdOptCC) = (
       removeEmptyProductsOpt(idempotentOptUS),
       removeEmptyProductsOpt(idempotentOptRM),
       removeEmptyProductsOpt(idempotentOptCC)
+      // idempotentOptCC
     )
     // println("removeEmptyProdOptCC: \n" + removeEmptyProdOptCC)
     // println("symbols: \n" + symbols)
@@ -1279,17 +1285,23 @@ object Compiler {
       replacedEqualVariablesOptRM,
       replacedEqualVariablesOptCC
     ) = (
-      replaceEqualVariables(removeEmptyProdOptUS, symbols),
-      replaceEqualVariables(removeEmptyProdOptRM, symbols),
+      replaceEqualVariables2(removeEmptyProdOptUS, symbols),
+      replaceEqualVariables2(removeEmptyProdOptRM, symbols),
       replaceEqualVariables2(removeEmptyProdOptCC, symbols, iters)
     )
-    // println("replacedEqualVariablesOptCC: \n" + replacedEqualVariablesOptCC)
-    val (fixedUS, fixedRM, fixedCC) = fixedPointOpt(
+    // println("replacedEqualVariablesOptCC: \n" + replacedEqualVariablesOptCC.prettyFormat())
+    // val (fixedUS, fixedRM, fixedCC) = fixedPointOpt(
+    //   replacedEqualVariablesOptUS,
+    //   replacedEqualVariablesOptRM,
+    //   replacedEqualVariablesOptCC,
+    //   symbols,
+    //   iters
+    // )
+    
+    val (fixedUS, fixedRM, fixedCC) = (
       replacedEqualVariablesOptUS,
       replacedEqualVariablesOptRM,
       replacedEqualVariablesOptCC,
-      symbols,
-      iters
     )
     // println("fixedCC: \n" + fixedCC)
     (fixedUS, fixedRM, fixedCC)

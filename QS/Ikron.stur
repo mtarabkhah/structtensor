@@ -1,11 +1,11 @@
 # Kronecker (I,B)
 symbols: Nr, Nc, Mr, Mc
 #outputs: Out
-I2:U(i, j) := (0 <= i < Nr) * (i = j)
-I2:D(i, j) := (0 <= i < Nr) * (0 <= j < Nc)
-I(i, j) := 1 * I2(i,j)
+#I2:U(i, j) := (0 <= i < Nr) * (i = j)
+#I2:D(i, j) := (0 <= i < Nr) * (0 <= j < Nc)
+#I(i, j) := 1 * I2(i,j)
 #I:U(i, j) := (0 <= i < Nr) * (i = j)
-#I(i,j) := 1 * (i=j) * (0 <= i < Nr) 
+I(i,j) := 1 * (i=j) * (0 <= i < Nr)
 #I(i,j) := 1 * (i=j) * (0 <= i < Nr) 
 I:D(i, j) := (0 <= i < Nr) * (0 <= j < Nc)
 A(i,j) := I(i,j)

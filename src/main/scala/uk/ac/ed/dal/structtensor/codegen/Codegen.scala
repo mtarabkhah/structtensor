@@ -184,9 +184,15 @@ object Codegen {
       kind: AccessType,
       iters: Seq[Variable]
   ): String = {
+    // println("computationHead.vars: \n" + computationHead.vars)
+    // println("accesses.flatMap(_.vars): \n" + accesses.flatMap(_.vars))
+    // println("conditions.map(_.variable): \n" + conditions.map(_.variable))
+    val symbolsSet = symbols.toSet 
     val variablesInit =
-      (iters ++ computationHead.vars ++ accesses.flatMap(_.vars)).distinct
-
+      // (iters ++ computationHead.vars ++ accesses.flatMap(_.vars)).distinct
+      (iters ++ computationHead.vars ++ accesses.flatMap(_.vars) ++ conditions.map(_.variable)).distinct.filterNot(symbolsSet.contains)
+      // (iters ++ computationHead.vars ++ accesses.flatMap(_.vars) ++ Seq(Variable("r"),Variable("c"),Variable("v"),Variable("w"))).distinct
+    // println(s"variablesInit: ${variablesInit.mkString(", ")}")
     val variables = reorder(variablesInit, conditions, symbols)
     val (loopNests, restOfConditions, numberOfBrackets1) = variables.reverse.foldLeft(
       Seq[String](),
@@ -586,14 +592,23 @@ object Codegen {
       kind: AccessType,
       iters_map: Map[String, Seq[Variable]] = Map()
   ): String = {
+    // println("rule: \n" + rule.prettyFormat())
     val computationHead = rule.head
     val iters = iters_map.getOrElse(computationHead.name, Seq())
     rule.body.prods.zipWithIndex
       .map {
         case (prod, ind) => {
+          // println(s"prod: $ind \n" + prod.prettyFormat())
           val conditions =
             prod.exps.collect { case condition: Comparison => condition }
           val accesses = prod.exps.collect { case access: Access => access }
+          // println(s"conditions: $ind \n" + conditions.mkString("\n"))
+          // println(s"accesses: $ind \n" + accesses.mkString("\n"))
+          // println(s"symbols: $ind \n" + symbols.mkString("\n"))
+          // println(s"computationHead: $ind \n" + computationHead.prettyFormat())
+          // println(s"codeLang: $ind \n" + codeLang)
+          // println(s"kind: $ind \n" + kind)
+          // println(s"iters: $ind \n" + iters)
           codeGenSingleProd(
             computationHead,
             conditions,
@@ -603,6 +618,7 @@ object Codegen {
             kind,
             iters
           )
+          // println(accesses.mkString("\n"))
         }
       }
       .mkString("\n")

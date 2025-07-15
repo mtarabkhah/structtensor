@@ -31,21 +31,27 @@ AB[i][j] += (A[r][c] * B[v][w]);
 }
 }
 {
-
-
 for (int i71 = 0; i71 < Nr; ++i71) {
 
 for (int i72 = 0; i72 < Nc; ++i72) {
 
 for (int i73 = 0; i73 < Mr; ++i73) {
 
+int r = ((i71 * Mr) + i73);
+if (r >= 0 && r < (Nr * Mr)) {
 for (int i74 = 0; i74 < Mc; ++i74) {
 
+int c = ((i72 * Mc) + i74);
+if (c >= 0 && c < (Nc * Mc)) {
 for (int v = 0; v < Pr; ++v) {
 
 for (int w = 0; w < Pc; ++w) {
 
+int i = ((r * Pr) + v);
+int j = ((c * Pc) + w);
 Out[i][j] += (A[i71][i72] * B[i73][i74] * C[v][w]);
+}
+}
 }
 }
 }

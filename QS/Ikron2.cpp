@@ -8,21 +8,22 @@ using namespace std;
 using namespace std::chrono;
 
 extern "C"
-void fn(double ** Out, double ** I, double ** B, int Nr, int Nc, int Mr, int Mc) {
+void fn(double ** Out, double ** B, int Nr, int Nc, int Mr, int Mc) {
 
 
 long time_computation = 0, start_computation, end_computation;
 start_computation = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
 {
-for (int r = 0; r < min({Nc, Nr}); ++r) {
-
 for (int v = 0; v < Mr; ++v) {
 
 for (int w = 0; w < Mc; ++w) {
 
-int i = ((r * Mr) + v);
+
+for (int r = 0; r < min({Nc, Nr}); ++r) {
+int c = r;
 int j = ((r * Mc) + w);
-Out[i][j] += (I[r][r] * B[v][w]);
+int i = ((r * Mr) + v);
+Out[i][j] += (1 * B[v][w]);
 }
 }
 }
