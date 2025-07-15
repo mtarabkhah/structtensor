@@ -185,6 +185,8 @@ object Main {
           outputs_names
         )
 
+        // println("uniqueSets_computation: \n" + uniqueSets_computation)
+        // println("redundancyMaps_computation: \n" + redundancyMaps_computation)
         val (newUS, newRM, newCC, ccRuleSeq, rcRuleSeq) =
           tensorComputations_computation.foldLeft(
             (
@@ -197,8 +199,13 @@ object Main {
           )((acc, tc) => {
             val inps = getInputs(tc, acc._1, acc._2, acc._3)
             val iters = iters_map.getOrElse(tc.head.name, Seq())
+            // println("tc: \n" + tc)
+            // println("iters: \n" + iters)
             val (usRule, rmRule, ccRule) =
               compile(tc, inps, symbols, outputs_names, iters)
+            // println("usRule: \n" + usRule)
+            // println("rmRule: \n" + rmRule)
+            // println("ccRule: \n" + ccRule)
             val rcRule = Rule(
               ccRule.head,
               SoPTimesSoP(
@@ -224,6 +231,11 @@ object Main {
               acc._5 :+ rcRule
             )
           })
+
+        
+        // println("newUS: \n" + newUS)
+        // println("newRM: \n" + newRM)
+        // println("newCC: \n" + newCC)
 
         val (
           newUS_preprocess,
@@ -254,7 +266,7 @@ object Main {
           .map(r => Codegen(r, symbols, config.codeLang, Tensor, iters_map))
           .mkString("\n")
 
-        println(ccRuleSeq)
+        // println("ccRuleSeq : \n" + ccRuleSeq)
         val ccComputation = outputs_names.isEmpty match {
           case true =>
             ccRuleSeq

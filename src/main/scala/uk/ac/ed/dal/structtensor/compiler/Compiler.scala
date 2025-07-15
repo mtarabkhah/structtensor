@@ -1265,11 +1265,15 @@ object Compiler {
       setIdempotentOpt(denormRM),
       setIdempotentOpt(denormCC)
     )
+    // println("idempotentOptCC: \n" + idempotentOptCC)
     val (removeEmptyProdOptUS, removeEmptyProdOptRM, removeEmptyProdOptCC) = (
       removeEmptyProductsOpt(idempotentOptUS),
       removeEmptyProductsOpt(idempotentOptRM),
       removeEmptyProductsOpt(idempotentOptCC)
     )
+    // println("removeEmptyProdOptCC: \n" + removeEmptyProdOptCC)
+    // println("symbols: \n" + symbols)
+    // println("iters: \n" + iters)
     val (
       replacedEqualVariablesOptUS,
       replacedEqualVariablesOptRM,
@@ -1277,8 +1281,9 @@ object Compiler {
     ) = (
       replaceEqualVariables(removeEmptyProdOptUS, symbols),
       replaceEqualVariables(removeEmptyProdOptRM, symbols),
-      replaceEqualVariables(removeEmptyProdOptCC, symbols, iters)
+      replaceEqualVariables2(removeEmptyProdOptCC, symbols, iters)
     )
+    // println("replacedEqualVariablesOptCC: \n" + replacedEqualVariablesOptCC)
     val (fixedUS, fixedRM, fixedCC) = fixedPointOpt(
       replacedEqualVariablesOptUS,
       replacedEqualVariablesOptRM,
@@ -1286,7 +1291,7 @@ object Compiler {
       symbols,
       iters
     )
-
+    // println("fixedCC: \n" + fixedCC)
     (fixedUS, fixedRM, fixedCC)
   }
 }

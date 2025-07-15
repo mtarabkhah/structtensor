@@ -1,0 +1,8 @@
+# Kronecker (I,B)
+symbols: Nr, Nc, Mr, Mc
+#outputs: Out
+#I(i,j) := 1 * (i=j) * (0 <= i < Nr) * (0 <= j < Nc)
+Out(i, j) := I(r,r) * B(v, w) * (0 <= r < Nr) * (0 <= c < Nc) * (r=c) * (0 <= v < Mr) * (0 <= w < Mc) * (i = r*Mr+v) * (j=c*Mc+w)
+I:D(i, j) := (0 <= i < Nr) * (0 <= j < Nc)
+B:D(i, j) := (0 <= i < Mr) * (0 <= j < Mc)
+Out:D(i, j) := (0 <= i < Nr*Mr) * (0 <= j < Nc*Mc)
